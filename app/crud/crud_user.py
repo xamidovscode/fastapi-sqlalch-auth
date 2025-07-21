@@ -21,3 +21,12 @@ class CRUDUser(CRUDBase[User, UserCreate, UserCreate]):
 
 user = CRUDUser(User)
 
+
+
+
+
+
+
+
+
+
