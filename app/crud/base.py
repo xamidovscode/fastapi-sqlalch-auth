@@ -20,14 +20,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
-    def get(self, db: Session, obj_id: int) -> Optional[ModelType]:
-        obj = db.get(self.model, obj_id)
-        if not obj:
-            raise HTTPException(
-                status_code=404,
-                detail=f"Object with {obj_id} not found",
-            )
-        return obj
+    def get(self, db: Session, **kwargs) -> Optional[ModelType]:
+        return db.query(self.model).filter_by(**kwargs).first()
 
     def get_multi(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()

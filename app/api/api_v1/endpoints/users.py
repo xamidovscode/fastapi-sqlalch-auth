@@ -26,9 +26,9 @@ def register_user(db: Session = Depends(deps.get_db)):
 
 @router.get("/users/{user_id}", response_model=schemas.UserRead)
 def register_user(user_id: int, db: Session = Depends(deps.get_db)):
-    return crud.user.get(db=db, obj_id=user_id)
+    return crud.user.get(db=db, id=user_id)
 
 
 @router.delete("/users/{user_id}", response_model=schemas.UserRead)
 def register_user(user_id: int, db: Session = Depends(deps.get_db)):
-    return crud.user.remove(db=db, obj_id=user_id)
+    return crud.user.remove(db=db, id=user_id)
