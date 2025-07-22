@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     FIRST_SUPERUSER: str
     FIRST_SUPERUSER_PASSWORD: str
+    CODE_EXPIRES_IN: int = 120
 
     PROJECT_NAME: str = "FastAPI SQLAlchemy Project"
 

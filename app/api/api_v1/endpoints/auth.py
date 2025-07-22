@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import schemas
+from app.core.config import settings
 from app.api import deps
 from typing import Optional
 from app.models.user import User
@@ -34,6 +35,6 @@ def register_user(user_data: schemas.UserCreateUpdate, db: Session = Depends(dep
         db.commit()
         db.refresh(user)
 
-    redis_client.setex(f"verify_code{user.id}", 60, user.id)
+    redis_client.setex(f"verify_code{user.id}", settings.CODE_EXPIRES_IN, user.id)
     return user
 

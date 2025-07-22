@@ -1,4 +1,6 @@
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+
+from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -50,9 +52,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.refresh(db_obj)
         return db_obj
 
-    def remove(self, db: Session, *, unique_field: int) -> ModelType:
-        obj = db.query(self.model).get(unique_field)
+    def remove(self, db: Session, *, obj_id: int) -> Optional[ModelType]:
+        obj = db.get(self.model, obj_id)
+        if not obj:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Object with {obj_id} not found",
+            )
         db.delete(obj)
         db.commit()
         return obj
-
