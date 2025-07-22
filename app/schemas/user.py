@@ -1,19 +1,14 @@
 from pydantic import BaseModel, EmailStr
 
-
 class UserBase(BaseModel):
     full_name: str
     email: EmailStr
+    is_superuser: bool
 
-
-class UserCreate(UserBase):
+class UserCreateUpdate(UserBase):
     password: str
 
 
-class UserRead(UserBase):
+class UserRepresentation(UserBase):
     id: int
     is_active: bool
-    is_superuser: bool
-
-    class Config:
-        orm_mode = True
